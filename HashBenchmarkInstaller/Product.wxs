@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="f1dc58ca-51eb-45b0-82d5-d421b4ada126" Name="HashBenchmarkInstaller" Language="1033" Version="1.0.0.0" Manufacturer="HashBenchmarkInstaller" UpgradeCode="1cfbaa1f-b3d3-49b9-b0a6-dbbc99691ec5">
+		<Package InstallerVersion="200" Compressed="yes" />
+
+		<Media Id="1" Cabinet="media1.cab" EmbedCab="yes" />
+
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLLOCATION" Name="HashBenchmarkInstaller">
+          <!--Merge Modules (by Microsoft) for the CRT and MFC-->
+          <Merge Id="CRT" Language="0" SourceFile="D:\Program Files\Common Files\Merge Modules\Microsoft_VC100_CRT_x86.msm" DiskId="1" />
+          <Merge Id="MFC" Language="0" SourceFile="D:\Program Files\Common Files\Merge Modules\Microsoft_VC100_MFC_x86.msm" DiskId="1" />
+          <Merge Id="MFC LOC" Language="0" SourceFile="D:\Program Files\Common Files\Merge Modules\Microsoft_VC100_MFCLOC_x86.msm" DiskId="1" />
+
+          <Component Id='Executable' Guid='0C3423D2-57B3-46E2-941D-71CFB29D8FC3'>
+            <File Id='HashContainerBenchmark.exe' DiskId='1' Name='HashContainerBenchmark.exe' Source='..\Release\HashContainerBenchmark.exe' Vital='yes' />
+            <RegistryValue Root='HKCU' Key='SOFTWARE\Hash Container Benchmark' Type='string' Name='ProgramGroup' Value='ProgramGroup' KeyPath='yes' />
+          </Component>
+          <Component Id='BoostlibDLL' Guid='FC659A06-90BC-4C93-A373-C23FBE676FC2'>
+            <File Id='Boostlib.dll' DiskId='1' Name='Boostlib.dll' Source='..\Release\Boostlib.dll' Vital='yes' />
+          </Component>
+          <Component Id='LegacyHashDLL' Guid='371A5283-FFAC-45A7-871F-0A2E442969A4'>
+            <File Id='LegacyHash.dll' DiskId='1' Name='LegacyHash.dll' Source='..\Release\LegacyHash.dll' Vital='yes' />
+          </Component>
+          <Component Id='STLDLL' Guid='FF3F245A-2F91-4BFB-B2FD-1B63E021D62B'>
+            <File Id='STL.dll' DiskId='1' Name='STL.dll' Source='..\Release\STL.dll' Vital='yes' />
+          </Component>
+          <Component Id='STLCStrDLL' Guid='B17E1B2C-596A-4399-A4B9-7A3B60F635FF'>
+            <File Id='STLCStr.dll' DiskId='1' Name='STLCStr.dll' Source='..\Release\STLCStr.dll' Vital='yes' />
+          </Component>
+          <Component Id='VC10DLL' Guid='EE173D14-9FD0-494D-9F77-E62BB054747D'>
+            <File Id='VC10.dll' DiskId='1' Name='VC10.dll' Source='..\Release\VC10.dll' Vital='yes' />
+          </Component>
+          <Component Id='ATLDLL' Guid='4DA94DE6-D844-4DD4-AD0E-3BC323D9D28F'>
+            <File Id='ATL.dll' DiskId='1' Name='ATL.dll' Source='..\Release\ATL.dll' Vital='yes' />
+          </Component>
+          <Component Id='ATLStdStrDLL' Guid='94EB55FD-CE42-457F-83CD-68DD363121D7'>
+            <File Id='ATLStdStr.dll' DiskId='1' Name='ATLStdStr.dll' Source='..\Release\ATLStdStr.dll' Vital='yes' />
+          </Component>
+          <Component Id='ATLHashDLL' Guid='A3D81F33-17C9-40CA-A9C5-23C7B652244F'>
+            <File Id='ATLHash.dll' DiskId='1' Name='ATLHash.dll' Source='..\Release\ATLHash.dll' Vital='yes' />
+          </Component>
+
+        </Directory>
+			</Directory>
+
+      <Directory Id="ProgramMenuFolder" Name="Programs" >
+        <Directory Id="ProgramMenuDir" Name='Hash Container Benchmark' >
+          <Component Id='ExecutableShortcut' Guid='7ACF1DB3-9877-4895-9AE8-4224AC86DAEC'>
+            <RemoveFolder Id='ProgramMenuDir' On='uninstall'/>
+            <RegistryValue Id='Product' Root='HKCU' Key='SOFTWARE\Hash Container Benchmark'
+						Name='Product' Action='write' Type='string' Value='Hash Container Benchmark' />
+            <Shortcut Id="StartmenuRun" Directory="ProgramMenuDir" Name="Hash Container Benchmark"
+                WorkingDirectory='INSTALLDIR'
+                Target="[INSTALLLOCATION]HashContainerBenchmark.exe" Icon="HashContainerBenchmark.exe" >
+              <Icon Id="HashContainerBenchmark.exe" SourceFile="..\Release\HashContainerBenchmark.exe" />
+            </Shortcut>
+          </Component>
+          <Component Id='Uninstall' Guid='1CCC784A-F4BB-4E2B-8A7F-1054FCE34BC6'>
+            <RegistryValue Id='ProductUninstall' Root='HKCU' Key='SOFTWARE\Hash Container Benchmark'
+						Name='ProductUninstall' Action='write' Type='string' Value='f1dc58ca-51eb-45b0-82d5-d421b4ada126' />
+            <Shortcut Id="StartmenuUninstall" Directory="ProgramMenuDir" Name="Uninstall Hash Benchmark"
+                 WorkingDirectory='INSTALLDIR'
+                 Target="[UNINSTALLCMD]" Arguments="[UNINSTALLARGS]" Icon="Uninstall.ico" >
+              <Icon Id="Uninstall.ico" SourceFile="Resource\Uninstall.ico" />
+            </Shortcut>
+          </Component>
+        </Directory>
+      </Directory>
+
+    </Directory>
+
+    <Feature Id="ProductFeature" Title="HashBenchmarkInstaller" Level="1">
+      <MergeRef Id="CRT" />
+      <MergeRef Id="MFC" />
+      <MergeRef Id="MFC LOC" />
+      <ComponentRef Id="Executable" />
+      <ComponentRef Id="BoostlibDLL" />
+      <ComponentRef Id="LegacyHashDLL" />
+      <ComponentRef Id="STLDLL" />
+      <ComponentRef Id="STLCStrDLL" />
+      <ComponentRef Id="VC10DLL" />
+      <ComponentRef Id="ATLDLL" />
+      <ComponentRef Id="ATLStdStrDLL" />
+      <ComponentRef Id="ATLHashDLL" />
+      <ComponentRef Id="ExecutableShortcut" />
+      <ComponentRef Id="Uninstall" />
+      <ComponentGroupRef Id="Product.Generated" />
+		</Feature>
+
+    <CustomAction Id="SetUninstallArgs" Property="UNINSTALLARGS" Value="/x {f1dc58ca-51eb-45b0-82d5-d421b4ada126}" />
+    <CustomAction Id="SetUninstallCmd" Property="UNINSTALLCMD" Value="MSIEXEC.EXE" />
+
+    <InstallExecuteSequence>
+      <Custom Action="SetUninstallArgs" Before="FindRelatedProducts" />
+      <Custom Action="SetUninstallCmd" Before="FindRelatedProducts" />
+    </InstallExecuteSequence>
+
+    <UIRef Id="WixUI_Minimal" />
+    <UIRef Id="WixUI_ErrorProgressText" />
+
+    <Property Id="ALLUSERS" Value="1"/>
+
+
+  </Product>
+</Wix>

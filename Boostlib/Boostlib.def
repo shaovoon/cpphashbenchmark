@@ -1,0 +1,22 @@
+LIBRARY Boostlib
+EXPORTS
+
+Initialize @ 1
+Destroy @ 2
+
+PopulateMap @ 5
+PopulateMultimap @ 6
+PopulateSet @ 7
+PopulateMultiset @ 8
+
+BenchmarkMap @ 10
+BenchmarkMultimap @ 11
+BenchmarkSet @ 12
+BenchmarkMultiset @ 13
+
+GetIndex @ 20
+
+SupportMap @ 21
+SupportMultimap @ 22
+SupportSet @ 23
+SupportMultiset @ 24
